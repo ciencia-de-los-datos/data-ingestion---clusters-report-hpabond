@@ -12,6 +12,7 @@ espacio entre palabra y palabra.
 import pandas as pd
 
 def ingest_data():
+    
     file_path = 'clusters_report.txt'
     
 
@@ -52,14 +53,22 @@ def ingest_data():
 
     # Crear el DataFrame
     data = {
-        'Cluster': cluster_list,
-        'Cantidad de palabras clave': cantidad_list,
-        'Porcentaje de palabras clave': porcentaje_list,
-        'Principales palabras clave': palabras_clave_list
+        'cluster': cluster_list,
+        'cantidad_de_palabras_clave': cantidad_list,
+        'porcentaje_de_palabras_clave': porcentaje_list,
+        'principales_palabras_clave': palabras_clave_list
     }
     df = pd.DataFrame(data)
 
     # Cambiar los nombres de las columnas a minúsculas
     df.columns = map(str.lower, df.columns)
 
+# Convertir las columnas a enteros
+    df['cluster'] = df['cluster'].astype(int)
+    df['cantidad_de_palabras_clave'] = df['cantidad_de_palabras_clave'].astype(int)
+    df['porcentaje_de_palabras_clave'] = df['porcentaje_de_palabras_clave'].str.replace(',', '.').astype(float)
+    df['principales_palabras_clave'] = df['principales_palabras_clave'].astype(str)
+    df['principales_palabras_clave'] = df['principales_palabras_clave'].str.rstrip('.')
+
     return df
+
