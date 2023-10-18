@@ -11,11 +11,52 @@ espacio entre palabra y palabra.
 """
 import pandas as pd
 
+def ingest_data(file_path):
+    # Inicializar listas para cada columna
+    cluster_list = []
+    cantidad_list = []
+    porcentaje_list = []
+    palabras_clave_list = []
 
-def ingest_data():
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
 
-    #
-    # Inserte su código aquí
-    #
+    current_cluster = None  
+    palabras_clave = []  
+
+    for line in lines:
+        parts = line.split()
+        
+        if not parts:  
+            continue
+
+        if parts[0].isdigit():  
+            if current_cluster is not None:
+                cluster_list.append(current_cluster)
+                palabras_clave_list.append(' '.join(palabras_clave))
+            
+            current_cluster = parts[0]
+            cantidad_list.append(parts[1])
+            porcentaje_list.append(parts[2])  
+            palabras_clave = parts[4:]
+        else:
+            palabras_clave.extend(parts)
+
+
+    if current_cluster is not None:
+        cluster_list.append(current_cluster)
+        palabras_clave_list.append(' '.join(palabras_clave))
+
+    # Crear el DataFrame
+    data = {
+        'Cluster': cluster_list,
+        'Cantidad de palabras clave': cantidad_list,
+        'Porcentaje de palabras clave': porcentaje_list,
+        'Principales palabras clave': palabras_clave_list
+    }
+    df = pd.DataFrame(data)
+
+    # Cambiar los nombres de las columnas a minúsculas
+    df.columns = map(str.lower, df.columns)
 
     return df
