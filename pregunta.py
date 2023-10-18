@@ -63,8 +63,3 @@ def ingest_data():
     df.columns = map(str.lower, df.columns)
 
     return df
-
-df = ingest_data()
-
-# Imprime el DataFrame
-print(df)
