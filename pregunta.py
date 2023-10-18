@@ -11,7 +11,10 @@ espacio entre palabra y palabra.
 """
 import pandas as pd
 
-def ingest_data(file_path):
+def ingest_data():
+    file_path = 'clusters_report.txt'
+    
+
     # Inicializar listas para cada columna
     cluster_list = []
     cantidad_list = []
@@ -60,3 +63,8 @@ def ingest_data(file_path):
     df.columns = map(str.lower, df.columns)
 
     return df
+
+df = ingest_data()
+
+# Imprime el DataFrame
+print(df)
